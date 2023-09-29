@@ -2,7 +2,7 @@
 This code accompanies the 2023 Robotics Automation Letters (RA-L) paper. It was also presented at ICRA 2023.
 
 ## Initial Setup
-Install Raylib dependencies as mentioned in https://github.com/raysan5/raylib.
+Install Raylib dependencies as mentioned in https://github.com/raysan5/raylib#build-and-installation
 This will be platform dependent
 
 Clone the repository *with the submodule dependencies:*
@@ -19,24 +19,39 @@ make
 
 ## Run examples
 Make any changes to the simulations you want in config/config.json and then run:
-```./gbpplanner```
+```shell
+./gbpplanner
+```
 
 Examples config files are in config directory, and include:
-- circle_cluttered (robots travel to the opposite sides around some obstacles)
-- junction (robots travel in a crossroad junction)
-- junction_twoway (robots can travel in both directions, in any road and can turn left, straight, right (red, green, blue) respectively)
-```./gbpplanner --cfg config/circle_cluttered.json```
+- ```config.json``` (default: robots travel to the opposite sides of a circle in free space)
+- ```circle_cluttered.json``` (robots travel to the opposite sides of a circle around some obstacles)
+- ```junction.json``` (robots travel in a crossroad junction)
+- ```junction_twoway.json``` (robots can travel in both directions, in any road and can turn left, straight, right (red, green, blue) respectively)
+
+Run the simulation:
+```shell
+./gbpplanner --cfg config/circle_cluttered.json
+```
 
 Or create your own config_file.json and run:
-```./gbpplanner --cfg config_file.json```
+```shell
+./gbpplanner --cfg config_file.json
+```
 
-Press 'H' to display help and tips!
+### During simulation
+**Press 'H' to display help and tips!**
+
+Use the mouse wheel to change the camera view (scroll : zoom, drag : pan, shift+drag : rotate)
+
+Press 'spacebar' to transition between camera keyframes which were set in ```src/Graphics.cpp```.
 
 ## Play with the code
 You may want to create your own formations and scenarios for the robots.
-Turn your attention to src/Simulator.cpp
-Towards the end of that file, there is a function called createOrDeleteRobots(), where you may add your own case.
 
+Towards the end of ```src/Simulator.cpp``` there is a function called ```createOrDeleteRobots()```, where you may add your own case.
+
+Alternatively, edit the parameters in the config files and see the effects on the simulations!
 
 ## Cite us
 ```

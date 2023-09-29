@@ -1,6 +1,7 @@
 # gbpplanner
 
 Basic install:
+Install Raylib dependencies from https://github.com/raysan5/raylib
 
 ```git clone https://github.com/aalpatya/gbpplanner.git --recurse-submodules```
 

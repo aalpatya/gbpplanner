@@ -1,3 +1,10 @@
+#**************************************************************************************/
+## Copyright (c) 2023 Aalok Patwardhan (a.patwardhan21@imperial.ac.uk)
+## This code is licensed under MIT license (see LICENSE for details)
+
+# Create the distance field image for the junction scenario. There are options to select 
+# two-way junction, as well as the road/lane sizes etc.
+#**************************************************************************************/
 import numpy as np
 import cv2
 from create_distance_field import *

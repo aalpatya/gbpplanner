@@ -1,3 +1,10 @@
+#**************************************************************************************/
+## Copyright (c) 2023 Aalok Patwardhan (a.patwardhan21@imperial.ac.uk)
+## This code is licensed under MIT license (see LICENSE for details)
+
+# This function takes an image as an input (with obstacles in BLACK and background as WHITE)
+# And returns an image which is blurred. The image can then be read by Simulator.cpp as a distance field.
+#**************************************************************************************/
 import numpy as np
 import cv2
 from scipy.ndimage import gaussian_filter

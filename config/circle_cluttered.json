@@ -21,7 +21,7 @@
   "MAX_SPEED": 2,
   "COMMS_FAILURE_RATE": 0,
   "FORMATION": "circle",
-  "OBSTACLE_FILE": "",
+  "OBSTACLE_FILE": "../assets/imgs/circle_cluttered.png",
 
   "###": "GBP parameters",
   "SIGMA_FACTOR_DYNAMICS": 0.1,

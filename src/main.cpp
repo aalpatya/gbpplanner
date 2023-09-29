@@ -1,3 +1,9 @@
+/**************************************************************************************/
+// Copyright (c) 2023 Aalok Patwardhan (a.patwardhan21@imperial.ac.uk)
+// This code is licensed under MIT license (see LICENSE for details)
+
+// Define all parameters in the appropriate config file (default: config/config.json)
+/**************************************************************************************/
 #define RLIGHTS_IMPLEMENTATION // needed to be defined once for the lights shader
 #include <iostream>
 #include <Utils.h>

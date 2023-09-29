@@ -1,3 +1,7 @@
+/**************************************************************************************/
+// Copyright (c) 2023 Aalok Patwardhan (a.patwardhan21@imperial.ac.uk)
+// This code is licensed under MIT license (see LICENSE for details)
+/**************************************************************************************/
 #include <iostream>
 #include <gbp/GBPCore.h>
 #include <Simulator.h>
@@ -278,7 +282,6 @@ void Simulator::createOrDeleteRobots(){
         print("Shouldn't reach here, formation not defined!");
         // Define new formations here!
     }        
-    print(next_rid_);
     // Create and/or delete the robots as necessary.
     for (auto robot : robots_to_create){
         robot_positions_[robot->rid_] = std::vector<double>{robot->waypoints_[0](0), robot->waypoints_[0](1)};

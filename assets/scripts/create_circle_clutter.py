@@ -1,3 +1,10 @@
+#**************************************************************************************/
+## Copyright (c) 2023 Aalok Patwardhan (a.patwardhan21@imperial.ac.uk)
+## This code is licensed under MIT license (see LICENSE for details)
+
+# Create obstacles for the cluttered scene, consisting of triangles and squares
+# Create the distance field image
+#**************************************************************************************/
 # Needs to blur an input image
 import numpy as np
 import cv2

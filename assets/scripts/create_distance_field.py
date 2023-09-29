@@ -3,7 +3,8 @@
 ## This code is licensed under MIT license (see LICENSE for details)
 
 # This function takes an image as an input (with obstacles in BLACK and background as WHITE)
-# And returns an image which is blurred. The image can then be read by Simulator.cpp as a distance field.
+# And returns an image which is blurred. The image can then be read by Simulator.cpp as a distance field,
+# for use with static obstacle avoidance.
 #**************************************************************************************/
 import numpy as np
 import cv2

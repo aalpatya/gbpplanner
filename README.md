@@ -15,3 +15,15 @@ Or create your own config_file.json and run:
 ```./gbpplanner --cfg config_file.json```
 
 
+Cite us: 
+```
+@ARTICLE{gbpplanner,
+        author={Patwardhan, Aalok and Murai, Riku and Davison, Andrew J.},
+        journal={IEEE Robotics and Automation Letters}, 
+        title={Distributing Collaborative Multi-Robot Planning With Gaussian Belief Propagation}, 
+        year={2023},
+        volume={8},
+        number={2},
+        pages={552-559},
+        doi={10.1109/LRA.2022.3227858}}
+```

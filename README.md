@@ -1,5 +1,7 @@
-# GBPPlanner: Distributing Multirobot Motion Planning with Gaussian Belief Propogation
+# GBPPlanner: Distributing Multi-Robot Collaboration with Gaussian Belief Propagation
 This code accompanies the 2023 Robotics Automation Letters (RA-L) paper. It was also presented at ICRA 2023.
+
+Project page: https://aalpatya.github.io/gbpplanner
 
 ## Initial Setup
 Install Raylib dependencies as mentioned in https://github.com/raysan5/raylib#build-and-installation
@@ -8,6 +10,7 @@ This will be platform dependent
 Clone the repository *with the submodule dependencies:*
 ```shell
 git clone https://github.com/aalpatya/gbpplanner.git --recurse-submodules
+cd gbpplanner
 ```
 Use CMAKE to set up the build environment and then run 'make':
 ```shell
@@ -31,12 +34,12 @@ Examples config files are in config directory, and include:
 
 Run the simulation:
 ```shell
-./gbpplanner --cfg config/circle_cluttered.json
+./gbpplanner --cfg ../config/circle_cluttered.json
 ```
 
 Or create your own config_file.json and run:
 ```shell
-./gbpplanner --cfg config_file.json
+./gbpplanner --cfg ../config_file.json
 ```
 
 ### During simulation

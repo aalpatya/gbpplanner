@@ -3,9 +3,16 @@ This code accompanies the 2023 Robotics Automation Letters (RA-L) paper. It was 
 
 Project page: https://aalpatya.github.io/gbpplanner
 
+<p align="center">
+  <img src="https://github.com/aalpatya/gbpplanner/blob/084c94e842f1f725cb6cde1e63115e152b12b769/assets/github_media/gbpplanner_circle.gif">
+  <img src="https://github.com/aalpatya/gbpplanner/blob/084c94e842f1f725cb6cde1e63115e152b12b769/assets/github_media/gbpplanner_junction.gif">
+</p>
+     
 ## Initial Setup
 Install Raylib dependencies as mentioned in https://github.com/raysan5/raylib#build-and-installation
 This will be platform dependent
+
+[OpenMP](https://www.openmp.org/) is required (included with gcc in Linux, you may need to install on other platforms)
 
 Clone the repository *with the submodule dependencies:*
 ```shell
@@ -50,11 +57,17 @@ Use the mouse wheel to change the camera view (scroll : zoom, drag : pan, shift+
 Press 'spacebar' to transition between camera keyframes which were set in ```src/Graphics.cpp```.
 
 ## Play with the code
+Edit the parameters in the config files and see the effects on the simulations!
+
+### Own formations
 You may want to create your own formations and scenarios for the robots.
 
 Towards the end of ```src/Simulator.cpp``` there is a function called ```createOrDeleteRobots()```, where you may add your own case.
 
-Alternatively, edit the parameters in the config files and see the effects on the simulations!
+### Custom Obstacles
+- Create an image file (.png) with BLACK obstacles on a WHITE background (see ```assets/imgs``` for examples)
+- Covert your image to a distance field image using the function in ```assets/scripts/create_distance_field.py```
+- Edit the OBSTACLE_FILE value in your config.json file with the new distance image
 
 ## Cite us
 ```

@@ -35,9 +35,10 @@ target_link_libraries(gbpplanner PUBLIC gbp)
 
 # Checks if OSX and links appropriate frameworks (only required on MacOS)
 if (APPLE)
-    target_link_libraries(${PROJECT_NAME} "-framework IOKit")
-    target_link_libraries(${PROJECT_NAME} "-framework Cocoa")
-    target_link_libraries(${PROJECT_NAME} "-framework OpenGL")
+    target_link_libraries(
+      gbpplanner PUBLIC
+          "-framework Cocoa, -framework OpenGL, -framework IOKit, -framework CoreVideo"
+      )
 endif()
 
 #################################################################

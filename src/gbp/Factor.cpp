@@ -228,10 +228,9 @@ InterrobotFactor::InterrobotFactor(int f_id, int r_id, std::vector<std::shared_p
 };
 
 Eigen::MatrixXd InterrobotFactor::h_func_(const Eigen::VectorXd& X){
-    // Each variable only has knowledge of itself and assumes other obstacle has same size.
-    // This is ok because there will also be another factor from the other robot taking into account its size, and these factors will sum
     Eigen::MatrixXd h = Eigen::MatrixXd::Zero(z_.rows(),z_.cols());
     Eigen::VectorXd X_diff = X(seqN(0,n_dofs_/2)) - X(seqN(n_dofs_, n_dofs_/2));
+    X_diff += 1e-6*r_id_*Eigen::VectorXd::Ones(n_dofs_/2);
 
     double r = X_diff.norm();
     if (r <= safety_distance_){
@@ -246,10 +245,9 @@ Eigen::MatrixXd InterrobotFactor::h_func_(const Eigen::VectorXd& X){
 };
 
 Eigen::MatrixXd InterrobotFactor::J_func_(const Eigen::VectorXd& X){
-    // Each variable only has knowledge of itself and assumes other obstacle has same size.
-    // This is ok because there will also be another factor from the other robot taking into account its size, and these factors will sum
     Eigen::MatrixXd J = Eigen::MatrixXd::Zero(z_.rows(), n_dofs_*2);
     Eigen::VectorXd X_diff = X(seqN(0,n_dofs_/2)) - X(seqN(n_dofs_, n_dofs_/2));
+    X_diff += 1e-6*r_id_*Eigen::VectorXd::Ones(n_dofs_/2);// Add a tiny random offset to avoid div/0 errors
     double r = X_diff.norm();
     if (r <= safety_distance_){
         J(0,seqN(0, n_dofs_/2)) = -1.f/safety_distance_/r * X_diff;

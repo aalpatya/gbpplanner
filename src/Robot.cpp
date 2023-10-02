@@ -132,8 +132,6 @@ void Robot::updateHorizon(){
 // Delete existing inter-robot factors for faraway robots
 /***************************************************************************************************/
 void Robot::updateInterrobotFactors(){
-    // bool symmetric_factors = true; // Toggle whether symmetric factors to be created (identical factors between 0->1 and 1->0)
-    bool symmetric_factors = false; // Toggle whether symmetric factors to be created (identical factors between 0->1 and 1->0)
     
     // Search through currently connected rids. If any are not in neighbours, delete interrobot factors.
     for (auto rid : connected_r_ids_){
@@ -145,7 +143,7 @@ void Robot::updateInterrobotFactors(){
     for (auto rid : neighbours_){
         if (std::find(connected_r_ids_.begin(), connected_r_ids_.end(), rid)==connected_r_ids_.end()){
             createInterrobotFactors(sim_->robots_.at(rid));
-            if (!symmetric_factors) sim_->robots_.at(rid)->connected_r_ids_.push_back(rid_);
+            if (!sim_->symmetric_factors) sim_->robots_.at(rid)->connected_r_ids_.push_back(rid_);
         };
     }
 }

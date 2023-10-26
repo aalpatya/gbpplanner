@@ -30,17 +30,20 @@ Factor::Factor(int f_id, int r_id, std::vector<std::shared_ptr<Variable>> variab
         this->meas_model_lambda_ = Eigen::MatrixXd::Identity(z_.rows(), z_.rows()) / pow(sigma,2.);
         
         // Initialise empty inbox and outbox
-        Message zero_msg(n_dofs_);
+        int n_dofs_total = 0; int n_dofs_var;
         for (auto var : variables_) {
+            n_dofs_var = var->n_dofs_;
+            Message zero_msg(n_dofs_var);
             inbox_[var->key_] = zero_msg;
             outbox_[var->key_] = zero_msg;
+            n_dofs_total += n_dofs_var;
         }
 
         // This parameter useful if the factor is connected to another robot
         other_rid_=r_id_;                           
 
         // Initialise empty linearisation point
-        X_ = Eigen::VectorXd::Zero(variables_.size()*n_dofs_);
+        X_ = Eigen::VectorXd::Zero(n_dofs_total);
     };
 
 /*****************************************************************************************************/
@@ -94,9 +97,12 @@ bool Factor::update_factor(){
 
     // Messages from connected variables are aggregated.
     // The beliefs are used to create the linearisation point X_.
+    int idx = 0; int n_dofs;
     for (int v=0; v<variables_.size(); v++){
+        n_dofs = variables_[v]->n_dofs_;
         auto& [_, __, mu_belief] = this->inbox_[variables_[v]->key_];
-        X_(seqN(v*n_dofs_, n_dofs_)) = mu_belief;
+        X_(seqN(idx, n_dofs)) = mu_belief;
+        idx += n_dofs;
     }
 
     // *Depending on the problem*, we may need to skip computation of this factor.
@@ -119,6 +125,7 @@ bool Factor::update_factor(){
     this->initialised_ = true;
 
     //  Update factor precision and information with incoming messages from connected variables.
+    int marginalisation_idx = 0;
     for (int v_out_idx=0; v_out_idx<variables_.size(); v_out_idx++){
         auto var_out = variables_[v_out_idx];
         // Initialise with factor values
@@ -126,16 +133,20 @@ bool Factor::update_factor(){
         Eigen::MatrixXd factor_lam = factor_lam_potential;
         
         // Combine the factor with the belief from other variables apart from the receiving variable
+        int idx_v = 0;
         for (int v_idx=0; v_idx<variables_.size(); v_idx++){
+            int n_dofs = variables_[v_idx]->n_dofs_;
             if (variables_[v_idx]->key_ != var_out->key_) {
                 auto [eta_belief, lam_belief, _] = inbox_[variables_[v_idx]->key_];
-                factor_eta(seqN(v_idx*n_dofs_, n_dofs_)) += eta_belief;
-                factor_lam(seqN(v_idx*n_dofs_, n_dofs_), seqN(v_idx*n_dofs_, n_dofs_)) += lam_belief;
+                factor_eta(seqN(idx_v, n_dofs)) += eta_belief;
+                factor_lam(seqN(idx_v, n_dofs), seqN(idx_v, n_dofs)) += lam_belief;
             }
+            idx_v += n_dofs;
         }
         
         // Marginalise the Factor Precision and Information to send to the relevant variable
-        outbox_[var_out->key_] = marginalise_factor_dist(factor_eta, factor_lam, v_out_idx);
+        outbox_[var_out->key_] = marginalise_factor_dist(factor_eta, factor_lam, v_out_idx, marginalisation_idx);
+        marginalisation_idx += var_out->n_dofs_;
     }
 
     return true;
@@ -144,25 +155,25 @@ bool Factor::update_factor(){
 /*****************************************************************************************************/
 // Marginalise the factor Precision and Information and create the outgoing message to the variable
 /*****************************************************************************************************/
-Message Factor::marginalise_factor_dist(const Eigen::VectorXd &eta, const Eigen::MatrixXd &Lam, int var_idx){
+Message Factor::marginalise_factor_dist(const Eigen::VectorXd &eta, const Eigen::MatrixXd &Lam, int var_idx, int marg_idx){
     // Marginalisation only needed if factor is connected to >1 variables
-    if (eta.size() == n_dofs_) return Message {eta, Lam};
+    int n_dofs = variables_[var_idx]->n_dofs_;
+    if (eta.size() == n_dofs) return Message {eta, Lam};
 
-    Eigen::VectorXd eta_a(n_dofs_), eta_b(eta.size()-n_dofs_);
-    int marg_idx = var_idx * n_dofs_;                    // index at which our mariginalising variable begins
-    eta_a = eta(seqN(marg_idx, n_dofs_));
-    eta_b << eta(seq(0, marg_idx - 1)), eta(seq(marg_idx + n_dofs_, last));
+    Eigen::VectorXd eta_a(n_dofs), eta_b(eta.size()-n_dofs);
+    eta_a = eta(seqN(marg_idx, n_dofs));
+    eta_b << eta(seq(0, marg_idx - 1)), eta(seq(marg_idx + n_dofs, last));
 
-    Eigen::MatrixXd lam_aa(n_dofs_, n_dofs_), lam_ab(n_dofs_, Lam.cols()-n_dofs_);
-    Eigen::MatrixXd lam_ba(Lam.rows()-n_dofs_, n_dofs_), lam_bb(Lam.rows()-n_dofs_, Lam.cols()-n_dofs_);
-    lam_aa << Lam(seqN(marg_idx, n_dofs_), seqN(marg_idx, n_dofs_));
-    lam_ab << Lam(seqN(marg_idx, n_dofs_), seq(0, marg_idx - 1)), Lam(seqN(marg_idx, n_dofs_), seq(marg_idx + n_dofs_, last));
-    lam_ba << Lam(seq(0, marg_idx - 1), seq(marg_idx, marg_idx + n_dofs_ - 1)), Lam(seq(marg_idx + n_dofs_, last), seqN(marg_idx, n_dofs_));
-    lam_bb << Lam(seq(0, marg_idx - 1), seq(0, marg_idx - 1)), Lam(seq(0, marg_idx - 1), seq(marg_idx + n_dofs_, last)),
-            Lam(seq(marg_idx + n_dofs_, last), seq(0, marg_idx - 1)), Lam(seq(marg_idx + n_dofs_, last), seq(marg_idx + n_dofs_, last));
+    Eigen::MatrixXd lam_aa(n_dofs, n_dofs), lam_ab(n_dofs, Lam.cols()-n_dofs);
+    Eigen::MatrixXd lam_ba(Lam.rows()-n_dofs, n_dofs), lam_bb(Lam.rows()-n_dofs, Lam.cols()-n_dofs);
+    lam_aa << Lam(seqN(marg_idx, n_dofs), seqN(marg_idx, n_dofs));
+    lam_ab << Lam(seqN(marg_idx, n_dofs), seq(0, marg_idx - 1)), Lam(seqN(marg_idx, n_dofs), seq(marg_idx + n_dofs, last));
+    lam_ba << Lam(seq(0, marg_idx - 1), seq(marg_idx, marg_idx + n_dofs - 1)), Lam(seq(marg_idx + n_dofs, last), seqN(marg_idx, n_dofs));
+    lam_bb << Lam(seq(0, marg_idx - 1), seq(0, marg_idx - 1)), Lam(seq(0, marg_idx - 1), seq(marg_idx + n_dofs, last)),
+            Lam(seq(marg_idx + n_dofs, last), seq(0, marg_idx - 1)), Lam(seq(marg_idx + n_dofs, last), seq(marg_idx + n_dofs, last));
 
     Eigen::MatrixXd lam_bb_inv = lam_bb.inverse();
-    Message marginalised_msg(n_dofs_);
+    Message marginalised_msg(n_dofs);
     marginalised_msg.eta = eta_a - lam_ab * lam_bb_inv * eta_b;
     marginalised_msg.lambda = lam_aa - lam_ab * lam_bb_inv * lam_ba;
     if (!marginalised_msg.lambda.allFinite()) marginalised_msg.setZero();

@@ -69,7 +69,7 @@ class Factor {
 
     bool update_factor();
 
-    Message marginalise_factor_dist(const Eigen::VectorXd &eta, const Eigen::MatrixXd &Lam, int var_idx);
+    Message marginalise_factor_dist(const Eigen::VectorXd &eta, const Eigen::MatrixXd &Lam, int var_idx, int marg_idx);
 };
 
 /********************************************************************************************/

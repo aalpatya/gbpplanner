@@ -1,5 +1,5 @@
 # GBPPlanner: Distributing Multi-Robot Collaboration with Gaussian Belief Propagation
-This code accompanies the 2023 Robotics Automation Letters (RA-L) paper. It was also presented at ICRA 2023.
+This code accompanies the 2023 Robotics Automation Letters (RA-L) paper. It was also presented at ICRA 2023 (Oral).
 
 Project page: https://aalpatya.github.io/gbpplanner
 
@@ -7,12 +7,17 @@ Project page: https://aalpatya.github.io/gbpplanner
   <img src="https://github.com/aalpatya/gbpplanner/blob/084c94e842f1f725cb6cde1e63115e152b12b769/assets/github_media/gbpplanner_circle.gif">
   <img src="https://github.com/aalpatya/gbpplanner/blob/084c94e842f1f725cb6cde1e63115e152b12b769/assets/github_media/gbpplanner_junction.gif">
 </p>
-     
+
+**Watch the Code tutorial: https://www.youtube.com/watch?v=jvoPJ8GLiHk**
+
 ## Initial Setup
 Install Raylib dependencies as mentioned in https://github.com/raysan5/raylib#build-and-installation
 This will be platform dependent
 
-[OpenMP](https://www.openmp.org/) is required (included with gcc in Linux, you may need to install on other platforms)
+Usually included with Linux (but you may need to install on other platforms)
+- [OpenMP](https://www.openmp.org/)
+- cmake (>=3.10)
+- make
 
 Clone the repository *with the submodule dependencies:*
 ```shell
@@ -58,6 +63,8 @@ Press 'spacebar' to transition between camera keyframes which were set in ```src
 
 ## Play with the code
 Edit the parameters in the config files and see the effects on the simulations!
+
+**Watch the Code tutorial: https://www.youtube.com/watch?v=jvoPJ8GLiHk**
 
 ### Own formations
 You may want to create your own formations and scenarios for the robots.

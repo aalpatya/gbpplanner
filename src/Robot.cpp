@@ -16,7 +16,7 @@ Robot::Robot(Simulator* sim,
              int rid,
              std::deque<Eigen::VectorXd> waypoints,
              float size,
-             Color color) : FactorGraph{sim->next_rid_},
+             Color color) : FactorGraph{rid},
              sim_(sim), rid_(rid),
              waypoints_(waypoints),
              robot_radius_(size), color_(color) {

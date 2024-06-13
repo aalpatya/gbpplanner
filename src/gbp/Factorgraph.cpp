@@ -32,8 +32,8 @@ void FactorGraph::factorIteration(MsgPassingMode msg_passing_mode){
 
         for (auto var : fac->variables_){
             // Check if the factor need to be skipped [see note in description]
-            if (((msg_passing_mode==INTERNAL) == (var->key_.robot_id_!=robot_id_) ||
-                    (!interrobot_comms_active_ && (var->key_.robot_id_!=robot_id_) && (msg_passing_mode==EXTERNAL)))) continue;
+            if (!interrobot_comms_active_ && fac->other_rid_!=robot_id_) continue;
+            if (msg_passing_mode==INTERNAL && fac->other_rid_!=robot_id_) continue;
             // Read message from each connected variable
             fac->inbox_[var->key_] = var->outbox_.at(f_key);
         }
@@ -63,9 +63,8 @@ void FactorGraph::variableIteration(MsgPassingMode msg_passing_mode){
 
         for (auto [f_key, fac] : var->factors_){
             // * Check if the variable need to be skipped [see note in description]
-            if (((msg_passing_mode==INTERNAL) == (var->key_.robot_id_!=robot_id_) ||
-                    (!interrobot_comms_active_ && (var->key_.robot_id_!=robot_id_) && (msg_passing_mode==EXTERNAL)))) continue;
-            
+            if (!interrobot_comms_active_ && fac->other_rid_!=robot_id_) continue;
+            if (msg_passing_mode==INTERNAL && fac->other_rid_!=robot_id_) continue;
             // Read message from each connected factor
             var->inbox_[f_key] = fac->outbox_.at(v_key);
         }

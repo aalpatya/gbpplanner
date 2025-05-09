@@ -5,22 +5,25 @@
 // Define all parameters in the appropriate config file (default: config/config.json)
 /**************************************************************************************/
 #define RLIGHTS_IMPLEMENTATION // needed to be defined once for the lights shader
+
 #include <iostream>
-#include <Utils.h>
+#include <memory>
 
 #include <DArgs.h>
-
 #include <Globals.h>
 #include <Simulator.h>
+#include <Utils.h>
 
 Globals globals;
 int main(int argc, char *argv[]){
+    srand(globals.SEED);                     // Initialise random seed   
+
+    DArgs::DArgs dargs(argc, argv);          // Parse config file argument --cfg <file.json>
+    if (globals.parse_global_args(dargs)){
+        return EXIT_FAILURE;
+    }  
     
-    srand((int)globals.SEED);                                   // Initialise random seed   
-    DArgs::DArgs dargs(argc, argv);                             // Parse config file argument --cfg <file.json>
-    if (globals.parse_global_args(dargs)) return EXIT_FAILURE;  
-    
-    Simulator* sim = new Simulator();       // Initialise the simulator
+    const auto sim = std::make_unique<Simulator>(); // Initialise the simulator
     globals.RUN = true;
     while (globals.RUN){
 
@@ -31,7 +34,5 @@ int main(int argc, char *argv[]){
 
     }
 
-    delete sim;
-
-    return 0;
+    return EXIT_SUCCESS;
 }    

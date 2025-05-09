@@ -31,7 +31,9 @@
 *.out
 *.app
 
+# Build directories
 build/
+build-*
 debug/
 
 # Python

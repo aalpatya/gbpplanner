@@ -11,17 +11,17 @@ Project page: https://aalpatya.github.io/gbpplanner
 **Watch the Code tutorial: https://www.youtube.com/watch?v=jvoPJ8GLiHk**
 
 ## Initial Setup
-Install Raylib dependencies as mentioned in https://github.com/raysan5/raylib#build-and-installation
-This will be platform dependent
+Install Raylib dependencies as mentioned in https://github.com/raysan5/raylib#build-and-installation.
+This will be platform dependent. For raylib itself, the CMakeLists.txt file should automatically find the library if it is already installed on your system, else, it will try and fetch it using FetchContent.
 
 Usually included with Linux (but you may need to install on other platforms)
 - [OpenMP](https://www.openmp.org/)
-- cmake (>=3.10)
+- cmake (>=3.11)
 - make
 
 Clone the repository *with the submodule dependencies:*
 ```shell
-git clone https://github.com/aalpatya/gbpplanner.git --recurse-submodules
+git clone https://github.com/aalpatya/gbpplanner.git
 cd gbpplanner
 ```
 Use CMAKE to set up the build environment and then run 'make':

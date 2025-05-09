@@ -106,7 +106,7 @@ void Variable::delete_factor(Key fac_key){
 /***********************************************************************************************************/
 void Variable::draw(bool filled){
     if (draw_fn_!=NULL){
-        draw_fn_;
+        std::ignore = draw_fn_;
     } else {
         // Default variable draw function.
         if (!valid_) return;

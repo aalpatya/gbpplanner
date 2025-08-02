@@ -61,10 +61,6 @@ Graphics::Graphics(Image obstacleImg) : obstacleImg_(ImageCopy(obstacleImg)){
     lights[0] = CreateLight(LIGHT_POINT, position, target, LIGHTGRAY, lightShader_);                            
 }
 
-Graphics::~Graphics(){
-    UnloadTexture(texture_img_);
-};
-
 /******************************************************************************************/
 // Use captured mouse input and keypresses and modify the camera view.
 // Also transition between camera viewframes if necessary.

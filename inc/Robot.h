@@ -26,12 +26,14 @@ extern Globals globals;
 class Robot : public FactorGraph {
 public:
     // Constructor
+    // NOTE: It is callers's responsibility to ensure that Simulator outlives the Robot instance.
     Robot(Simulator* sim,
           int rid,
           std::deque<Eigen::VectorXd> waypoints,
           float size,
           Color color);
-    ~Robot();
+    
+    ~Robot() = default;
 
 
     Simulator* sim_;                            // Pointer to the simulator

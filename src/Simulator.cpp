@@ -19,9 +19,6 @@ Simulator::Simulator(){
         InitWindow(globals.SCREEN_SZ, globals.SCREEN_SZ, globals.WINDOW_TITLE);
     }
 
-    // Initialise kdtree for storing robot positions (needed for nearest neighbour check)
-    treeOfRobots_ = std::make_unique<KDTree>(2, robot_positions_, 50);  
-
     // For display only
     // User inputs an obstacle image where the obstacles are BLACK and background is WHITE.
     obstacleImg = LoadImage(globals.OBSTACLE_FILE.c_str());
@@ -30,15 +27,9 @@ Simulator::Simulator(){
     // However for calculation purposes the image needs to be inverted.
     ImageColorInvert(&obstacleImg);
     graphics = std::make_unique<Graphics>(obstacleImg);
-};
 
-/*******************************************************************************/
-// Destructor
-/*******************************************************************************/
-Simulator::~Simulator(){
-    if (globals.DISPLAY) {
-        CloseWindow();
-    }
+    // Initialise kdtree for storing robot positions (needed for nearest neighbour check)
+    treeOfRobots_ = std::make_unique<KDTree>(2, robot_positions_, 50); 
 };
 
 /*******************************************************************************/

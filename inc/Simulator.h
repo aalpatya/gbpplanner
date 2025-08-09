@@ -34,7 +34,9 @@ public:
 
     // Constructor
     Simulator();
-    ~Simulator() = default;
+    
+    // Destructor
+    ~Simulator();
 
     // Pointer to Graphics class which hold all the camera, graphics and models for display
     std::unique_ptr<Graphics> graphics;

@@ -32,6 +32,16 @@ Simulator::Simulator(){
     treeOfRobots_ = std::make_unique<KDTree>(2, robot_positions_, 50); 
 };
 
+Simulator::~Simulator(){
+    if (globals.DISPLAY){
+        // Call the destructor of Graphics class explicitly before closing the window. This will unload the texture.
+        graphics.reset();
+        
+        // Close the window and unload OpenGL context
+        CloseWindow();
+    }
+}
+
 /*******************************************************************************/
 // Drawing graphics.
 /*******************************************************************************/

@@ -19,7 +19,9 @@ class Graphics {
 public:
     // Constructor
     Graphics(Image obstacleImg);
-    ~Graphics() = default;
+    
+    // Destructor
+    ~Graphics();
     
     Image obstacleImg_;                             // Image representing obstacles in the environment
     Texture2D texture_img_;                         // Raylib Texture created from obstacleImg

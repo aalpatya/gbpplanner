@@ -19,6 +19,21 @@ Usually included with Linux (but you may need to install on other platforms)
 - cmake (>=3.11)
 - make
 
+### MacOS specific
+I found that adding the following to ~/.zshrc worked:
+```shell
+export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
+export OpenMP_ROOT=$(brew --prefix)/opt/libomp
+export LDFLAGS="$LDFLAGS -L${OpenMP_ROOT}/lib"
+```
+and then run:
+```shell
+brew install llvm
+brew install libomp
+brew link --force libomp
+```
+
+### All Operating Systems
 Clone the repository *with the submodule dependencies:*
 ```shell
 git clone https://github.com/aalpatya/gbpplanner.git

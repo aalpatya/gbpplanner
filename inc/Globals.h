@@ -37,7 +37,7 @@ class Globals {
     bool DRAW_WAYPOINTS;                                    // Toggle display of path planning goals
     
     // Simulation parameters
-    int SEED;                                               // Random Seed 
+    unsigned int SEED;                                      // Random Seed 
     float TIMESTEP;                                         // Simulation timestep [s]
     int MAX_TIME;                                           // Exit simulation if more timesteps than this
     int NUM_ROBOTS;                                         // Number of robots (if no new robots are to be added)

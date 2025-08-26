@@ -19,9 +19,6 @@ Simulator::Simulator(){
         InitWindow(globals.SCREEN_SZ, globals.SCREEN_SZ, globals.WINDOW_TITLE);
     }
 
-    // Initialise kdtree for storing robot positions (needed for nearest neighbour check)
-    treeOfRobots_ = new KDTree(2, robot_positions_, 50);  
-
     // For display only
     // User inputs an obstacle image where the obstacles are BLACK and background is WHITE.
     obstacleImg = LoadImage(globals.OBSTACLE_FILE.c_str());
@@ -29,21 +26,21 @@ Simulator::Simulator(){
 
     // However for calculation purposes the image needs to be inverted.
     ImageColorInvert(&obstacleImg);
-    graphics = new Graphics(obstacleImg);
+    graphics = std::make_unique<Graphics>(obstacleImg);
+
+    // Initialise kdtree for storing robot positions (needed for nearest neighbour check)
+    treeOfRobots_ = std::make_unique<KDTree>(2, robot_positions_, 50); 
 };
 
-/*******************************************************************************/
-// Destructor
-/*******************************************************************************/
 Simulator::~Simulator(){
-    delete treeOfRobots_;
-    int n = robots_.size();
-    for (int i = 0; i < n; ++i) robots_.erase(i);
-    if (globals.DISPLAY) {
-        delete graphics;
+    if (globals.DISPLAY){
+        // Call the destructor of Graphics class explicitly before closing the window. This will unload the texture.
+        graphics.reset();
+        
+        // Close the window and unload OpenGL context
         CloseWindow();
     }
-};
+}
 
 /*******************************************************************************/
 // Drawing graphics.

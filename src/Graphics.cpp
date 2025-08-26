@@ -63,7 +63,7 @@ Graphics::Graphics(Image obstacleImg) : obstacleImg_(ImageCopy(obstacleImg)){
 
 Graphics::~Graphics(){
     UnloadTexture(texture_img_);
-};
+}
 
 /******************************************************************************************/
 // Use captured mouse input and keypresses and modify the camera view.

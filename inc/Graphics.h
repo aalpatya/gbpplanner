@@ -19,6 +19,8 @@ class Graphics {
 public:
     // Constructor
     Graphics(Image obstacleImg);
+    
+    // Destructor
     ~Graphics();
     
     Image obstacleImg_;                             // Image representing obstacles in the environment

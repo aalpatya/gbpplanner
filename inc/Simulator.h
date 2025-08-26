@@ -34,16 +34,18 @@ public:
 
     // Constructor
     Simulator();
+    
+    // Destructor
     ~Simulator();
 
     // Pointer to Graphics class which hold all the camera, graphics and models for display
-    Graphics* graphics;
+    std::unique_ptr<Graphics> graphics;
 
     // kd-tree to store the positions of the robots at each timestep.
     // This is used for calculating the neighbours of robots blazingly fast.
     typedef KDTreeMapOfVectorsAdaptor<std::map<int,std::vector<double>>> KDTree;
     std::map<int, std::vector<double>> robot_positions_{{0,{0.,0.}}};
-    KDTree* treeOfRobots_;
+    std::unique_ptr<KDTree> treeOfRobots_;
 
     // Image representing the obstacles in the environment
     Image obstacleImg;

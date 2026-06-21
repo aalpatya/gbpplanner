@@ -1,3 +1,9 @@
+># 🚨 **NEW! Please check out [DANCeRS](https://github.com/aalpatya/dancers): an improved GBP C++ library for optimisation over Euclidean and Lie Groups** 🚨
+> It also serves as the code for the [DANCeRS paper](https://arxiv.org/abs/2508.18153) (ICRA 2026) for
+> * distributed multirobot path planning and **assignment-free** shape formation
+> * distributed multirobot consensus over continuous **and** discrete decision spaces
+
+
 # GBPPlanner: Distributing Multi-Robot Collaboration with Gaussian Belief Propagation
 This code accompanies the 2023 Robotics Automation Letters (RA-L) paper. It was also presented at ICRA 2023 (Oral).
 
